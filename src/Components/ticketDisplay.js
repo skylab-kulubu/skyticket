@@ -2,15 +2,18 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import ColorThief from "colorthief";
+import useSound from "use-sound";
 import stampSoundPath from "../Tickets/stamp-sound.mp3";
 
 const TicketDisplay = ({ color, character, owner }) => {
   const imagePath = require(`../Tickets/${color}/${character}.png`);
   const stampPath = require(`../Tickets/ticket-stamp.png`);
-  //const stampSoundPath = require("../Tickets/stamp-sound.pm3"); // Ses dosyasının yolu
   const imgRef = useRef(null);
   const [bgColor, setBgColor] = useState("#f0f4f8");
   const [stampPosition, setStampPosition] = useState(null);
+
+  // useSound hook'u ile sesi hazırlayın
+  const [play] = useSound(stampSoundPath);
 
   const handleTouchStart = (event) => {
     if (event.touches.length === 3) {
@@ -24,8 +27,7 @@ const TicketDisplay = ({ color, character, owner }) => {
       setStampPosition({ x, y });
 
       // Ses dosyasını çal
-      const audio = new Audio(stampSoundPath);
-      audio.play();
+      play();
     }
   };
 

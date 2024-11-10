@@ -47,24 +47,31 @@ body, html, #root {
   position: absolute;
   width: 100px;
   height: 100px;
-  background-color: black;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: #000;
+  border-radius: 5px;
   pointer-events: none;
-  transform: scale(0.5);
+  opacity: 0;
+  animation-name: pulse;
+  animation-delay: 2.5s;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
 }
 
 /* Animasyon için yeni sınıf */
-.animate-stamp {
-  animation: stampAppear 0.3s ease forwards;
-}
-
-@keyframes stampAppear {
-  to {
+/* Animasyon için keyframes */
+@keyframes pulse {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+    transform-origin: 50% 50%;
+    transform: rotate(-2deg) scale(5);
+    transition: all 0.3s cubic-bezier(0.6, 0.04, 0.98, 0.335);
+  }
+  100% {
     opacity: 1;
-    transform: scale(1); /* Yavaşça büyüme efekti */
+    transform: rotate(-15deg) scale(1);
   }
 }
 
