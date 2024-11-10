@@ -1,11 +1,11 @@
+// TicketDisplay.js
 
 import React, { useEffect, useRef, useState } from "react";
 import ColorThief from "colorthief";
-import { submitTicket } from "../Services/ticketService";
 
-const TicketDisplay = ({ color, character, ticketId }) => {
+const TicketDisplay = ({ color, character }) => {
   const imagePath = require(`../Tickets/${color}/${character}.png`);
-  const stampPath = require(`../Tickets/ticket-stamp.png`);
+  const stampPath = require("../Tickets/ticket-stamp.png");
   const imgRef = useRef(null);
   const [bgColor, setBgColor] = useState("#f0f4f8");
   const [stampPosition, setStampPosition] = useState(null);
@@ -14,16 +14,6 @@ const TicketDisplay = ({ color, character, ticketId }) => {
     if (event.touches.length === 3) {
       const touch = event.touches[0];
       setStampPosition({ x: touch.clientX, y: touch.clientY });
-      handleStamp();
-    }
-  };
-
-  const handleStamp = async () => {
-    try {
-      const result = await submitTicket(ticketId);
-      alert("Bilet başarıyla kullanıldı!");
-    } catch (error) {
-      alert(error.message || "Bilet zaten kullanıldı!");
     }
   };
 
@@ -66,8 +56,8 @@ const TicketDisplay = ({ color, character, ticketId }) => {
           alt="Stamp"
           className="stamp"
           style={{
-            top: stampPosition.y - 25,
-            left: stampPosition.x - 25,
+            top: stampPosition.y - 50,
+            left: stampPosition.x - 50,
           }}
         />
       )}
