@@ -30,6 +30,11 @@ body, html, #root {
   object-fit: contain;
 }
 
+.stamp{
+  width: 100px;
+  height: 100px;
+}
+
 /* Mobil cihazlarda yatay moda çevir */
 @media (max-width: 768px) { /* 768px genişliğe kadar, genellikle mobil cihazlar için */
   .ticket-image {
