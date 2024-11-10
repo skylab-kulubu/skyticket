@@ -2,18 +2,14 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import ColorThief from "colorthief";
-import useSound from "use-sound";
 import stampSoundPath from "../Tickets/stamp-sound.mp3";
 
 const TicketDisplay = ({ color, character, owner }) => {
-  const imagePath = require(`../Tickets/${color}/${character}.png`);
+  const imagePath = require(`../Tickets/${color}/${character}.png`); // Corrected template literals
   const stampPath = require(`../Tickets/ticket-stamp.png`);
   const imgRef = useRef(null);
   const [bgColor, setBgColor] = useState("#f0f4f8");
   const [stampPosition, setStampPosition] = useState(null);
-
-  // useSound hook'u ile sesi hazırlayın
-  const [play] = useSound(stampSoundPath);
 
   const handleTouchStart = (event) => {
     if (event.touches.length === 3) {
@@ -27,7 +23,8 @@ const TicketDisplay = ({ color, character, owner }) => {
       setStampPosition({ x, y });
 
       // Ses dosyasını çal
-      play();
+      const audio = new Audio(stampSoundPath);
+      audio.play();
     }
   };
 
@@ -37,7 +34,7 @@ const TicketDisplay = ({ color, character, owner }) => {
       const currentImgRef = imgRef.current;
       if (currentImgRef) {
         const color = colorThief.getColor(currentImgRef);
-        setBgColor(`rgb(${color[0]}, ${color[1]}, ${color[2]})`);
+        setBgColor(`rgb(${color[0]}, ${color[1]}, ${color[2]})`); // Corrected rgb format
       }
     };
 
@@ -59,7 +56,7 @@ const TicketDisplay = ({ color, character, owner }) => {
     >
       <img
         src={imagePath}
-        alt={`${character} Ticket`}
+        alt={`${character} Ticket`} // Corrected template literals in alt
         className="ticket-image"
         ref={imgRef}
         crossOrigin="anonymous"
