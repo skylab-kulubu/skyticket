@@ -1,4 +1,5 @@
 /* index.css */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 body, html, #root {
   margin: 0;
@@ -29,6 +30,19 @@ body, html, #root {
   object-fit: contain;
 }
 
+.owner-name {
+  position: absolute;
+  top: 40%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: 'Bebas Neue', sans-serif;
+  color: white;
+  pointer-events: none;
+  letter-spacing: 2px;
+}
+
 .stamp-background {
   position: absolute;
   width: 100px;
@@ -39,11 +53,24 @@ body, html, #root {
   justify-content: center;
   align-items: center;
   pointer-events: none;
+  transform: scale(0.5);
+}
+
+/* Animasyon için yeni sınıf */
+.animate-stamp {
+  animation: stampAppear 0.3s ease forwards;
+}
+
+@keyframes stampAppear {
+  to {
+    opacity: 1;
+    transform: scale(1); /* Yavaşça büyüme efekti */
+  }
 }
 
 .stamp {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   pointer-events: none;
 }
 
@@ -53,5 +80,11 @@ body, html, #root {
     width: 90vh;
     height: auto;
     transform: rotate(90deg);
+  }
+
+  .owner-name {
+    top: 25%;
+    left: 47%;
+    transform: translate(-50%, -50%) rotate(90deg);
   }
 }

@@ -2,10 +2,12 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import ColorThief from "colorthief";
+import stampSoundPath from "../Tickets/stamp-sound.mp3";
 
-const TicketDisplay = ({ color, character }) => {
+const TicketDisplay = ({ color, character, owner }) => {
   const imagePath = require(`../Tickets/${color}/${character}.png`);
-  const stampPath = require("../Tickets/ticket-stamp.png");
+  const stampPath = require(`../Tickets/ticket-stamp.png`);
+  //const stampSoundPath = require("../Tickets/stamp-sound.pm3"); // Ses dosyasının yolu
   const imgRef = useRef(null);
   const [bgColor, setBgColor] = useState("#f0f4f8");
   const [stampPosition, setStampPosition] = useState(null);
@@ -20,6 +22,10 @@ const TicketDisplay = ({ color, character }) => {
       const y = (touch1.clientY + touch2.clientY + touch3.clientY) / 3;
 
       setStampPosition({ x, y });
+
+      // Ses dosyasını çal
+      const audio = new Audio(stampSoundPath);
+      audio.play();
     }
   };
 
@@ -56,9 +62,12 @@ const TicketDisplay = ({ color, character }) => {
         ref={imgRef}
         crossOrigin="anonymous"
       />
+      <div className="owner-name">
+        {owner.firstName} {owner.lastName}
+      </div>
       {stampPosition && (
         <div
-          className="stamp-background"
+          className="stamp-background animate-stamp"
           style={{
             top: stampPosition.y - 50,
             left: stampPosition.x - 50,
