@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import TicketDisplay from "./TicketDisplay";
+import TicketDisplay from "./ticketDisplay";
 import { fetchTicketById, submitTicket } from "../Services/ticketService";
 
 const TicketManager = () => {

@@ -6,8 +6,7 @@ import SampleTicket from './Components/sampleTicket';
 const App = () => {
   return (
     <Router>
-      <div className="app">
-        <h1>Ticket Display</h1>
+      <div className="App">
         <Routes>
           <Route path="/ticket/:ticketId" element={<TicketManager />} />
           <Route path="/sample-ticket" element={<SampleTicket />} />

@@ -1,13 +1,13 @@
 import React from 'react';
-import TicketDisplay from './TicketDisplay';
+import TicketDisplay from './ticketDisplay';
 
 const SampleTicket = () => {
   const owner = { firstName: "Emre", lastName: "Uslu" };
-  const color = "Red";
-  const character = "RICK";
+  const color = "Blue";
+  const character = "YODA";
 
   return (
-    <div className="sample-ticket">
+    <div>
       <TicketDisplay owner={owner} color={color} character={character} />
     </div>
   );

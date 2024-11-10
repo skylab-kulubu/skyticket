@@ -1,3 +1,40 @@
-body{
+/* index.css */
+
+/* Ekranda kaydırmayı devre dışı bırak */
+body, html, #root {
   margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f4f8; /* Arka plan rengi */
+}
+
+/* Bilet konteyneri */
+.ticket-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Bilet görseli, varsayılan olarak dikey */
+.ticket-image {
+  width: 100vw;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Mobil cihazlarda yatay moda çevir */
+@media (max-width: 768px) { /* 768px genişliğe kadar, genellikle mobil cihazlar için */
+  .ticket-image {
+    width: 100vh; /* Ekranın yüksekliği boyunca genişlik */
+    height: auto;
+    transform: rotate(90deg); /* Görseli yatay moda çevir */
+  }
 }
