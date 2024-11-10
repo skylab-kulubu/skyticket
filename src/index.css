@@ -20,7 +20,7 @@ body, html, #root {
   align-items: center;
   overflow: hidden;
   position: relative;
-  padding: 10px; /* Görsele kenarlardan biraz boşluk bırak */
+  padding: 10px;
 }
 
 .ticket-image {
@@ -29,17 +29,28 @@ body, html, #root {
   object-fit: contain;
 }
 
-.stamp {
+.stamp-background {
   position: absolute;
   width: 100px;
   height: 100px;
+  background-color: black;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.stamp {
+  width: 80px;
+  height: 80px;
   pointer-events: none;
 }
 
 /* Mobil cihazlarda yatay moda çevir */
 @media (max-width: 768px) {
   .ticket-image {
-    width: calc(100vh - 40px); /* Kenar boşluklarıyla birlikte tam ekran genişlik */
+    width: 90vh;
     height: auto;
     transform: rotate(90deg);
   }

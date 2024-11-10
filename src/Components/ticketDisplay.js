@@ -12,8 +12,14 @@ const TicketDisplay = ({ color, character }) => {
 
   const handleTouchStart = (event) => {
     if (event.touches.length === 3) {
-      const touch = event.touches[0];
-      setStampPosition({ x: touch.clientX, y: touch.clientY });
+      const touch1 = event.touches[0];
+      const touch2 = event.touches[1];
+      const touch3 = event.touches[2];
+
+      const x = (touch1.clientX + touch2.clientX + touch3.clientX) / 3;
+      const y = (touch1.clientY + touch2.clientY + touch3.clientY) / 3;
+
+      setStampPosition({ x, y });
     }
   };
 
@@ -51,15 +57,15 @@ const TicketDisplay = ({ color, character }) => {
         crossOrigin="anonymous"
       />
       {stampPosition && (
-        <img
-          src={stampPath}
-          alt="Stamp"
-          className="stamp"
+        <div
+          className="stamp-background"
           style={{
             top: stampPosition.y - 50,
             left: stampPosition.x - 50,
           }}
-        />
+        >
+          <img src={stampPath} alt="Stamp" className="stamp" />
+        </div>
       )}
     </div>
   );
