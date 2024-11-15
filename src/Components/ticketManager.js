@@ -31,11 +31,15 @@ const TicketManager = () => {
 
       if (img.complete) {
         const color = colorThief.getColor(img);
-        setBgColor(`rgb(${color[0]}, ${color[1]}, ${color[2]})`);
+        const bg = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+        setBgColor(bg);
+        document.body.style.backgroundColor = bg; // Body'nin arkaplan rengini değiştir
       } else {
         img.addEventListener("load", () => {
           const color = colorThief.getColor(img);
-          setBgColor(`rgb(${color[0]}, ${color[1]}, ${color[2]})`);
+          const bg = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+          setBgColor(bg);
+          document.body.style.backgroundColor = bg; // Body'nin arkaplan rengini değiştir
         });
       }
     }
@@ -43,8 +47,6 @@ const TicketManager = () => {
 
   const handleTouchStart = (event) => {
     if (!ticketData || ticketData.isStamped) return;
-
-
 
     if (event.touches.length === 3) {
       const touch1 = event.touches[0];
@@ -97,7 +99,6 @@ const TicketManager = () => {
   return (
     <div
       className="ticket-container"
-      style={{ backgroundColor: bgColor }}
       onTouchStart={handleTouchStart}
     >
       {finalImage ? (
