@@ -44,6 +44,8 @@ const TicketManager = () => {
   const handleTouchStart = (event) => {
     if (!ticketData || ticketData.isStamped) return;
 
+
+
     if (event.touches.length === 3) {
       const touch1 = event.touches[0];
       const touch2 = event.touches[1];
@@ -61,9 +63,29 @@ const TicketManager = () => {
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.code === "Space") {
+        // Ekranın ortasında konumlandır
+        const x = window.innerWidth / 2;
+        const y = window.innerHeight / 2;
+
+        setStampPosition({ x, y });
+
+        const audio = new Audio(stampSoundPath);
+        audio.play();
+
+        handleStamp();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [ticketData]);
+
   const handleStamp = async () => {
-    const updatedData = await submitTicket(ticketId);
-    setTicketData(updatedData);
+    //const updatedData = await submitTicket(ticketId);
+    //setTicketData(updatedData);
   };
 
   if (!ticketData) return null;
