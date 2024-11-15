@@ -1,16 +1,20 @@
 /* index.css */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
+:root {
+  --vh: 100vh; /* Varsayılan değer */
+}
+
 body, html, #root {
   margin: 0;
   padding: 0;
   width: 100vw;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100); /* Dinamik yüksekliği kullan */
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f0f4f8;
+  background-color: #eadaff;
 }
 
 .ticket-container {
@@ -47,7 +51,6 @@ body, html, #root {
   position: absolute;
   width: 100px;
   height: 100px;
-  background-color: black;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -61,6 +64,35 @@ body, html, #root {
 .animate-stamp {
   animation: stampAppear 0.3s ease forwards;
 }
+
+.popup {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.download-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.download-button:hover {
+  background: #0056b3;
+}
+
 
 @keyframes stampAppear {
   to {
