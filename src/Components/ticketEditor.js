@@ -15,7 +15,7 @@ const TicketEditor = ({ color, character, owner, onImageReady, imgRef }) => {
       canvas.height = img.height;
 
       ctx.drawImage(img, 0, 0, img.width, img.height);
-      ctx.font = "40px Bebas Neue";
+      ctx.font = "80px Bebas Neue";
       ctx.fillStyle = "white";
       ctx.textAlign = "center";
       ctx.fillText(`${owner.firstName} ${owner.lastName}`, canvas.width * 0.2, canvas.height * 0.6);

@@ -108,11 +108,11 @@ const TicketManager = () => {
             <div
               className="stamp-background animate-stamp"
               style={{
-                top: `${stampPosition.y}px`,
-                left: `${stampPosition.x}px`,
+                top: `${stampPosition.y -50}px`,
+                left: `${stampPosition.x -50}px`,
               }}
             >
-              <img src={stampPath} alt="Stamp" className="stamp" />
+              <img src={stampPath} alt=" " className="stamp" />
             </div>
           )}
         </div>

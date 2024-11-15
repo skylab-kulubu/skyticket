@@ -60,6 +60,11 @@ body, html, #root {
   transform: scale(0.5); /* Küçük başlayıp büyümesi için başlangıç ölçeği */
 }
 
+.stamp img{
+  width: 150px;
+  height: 150px;
+}
+
 /* Animasyon için yeni sınıf */
 .animate-stamp {
   animation: stampAppear 0.3s ease forwards;
@@ -102,8 +107,8 @@ body, html, #root {
 }
 
 .stamp {
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
   pointer-events: none;
 }
 
