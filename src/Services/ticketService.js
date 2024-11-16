@@ -1,14 +1,25 @@
+import axios from "axios";
+
+const API_BASE_URL = "https://backend.skyticket.yildizskylab.com/api/tickets";
+
+// Bilet bilgilerini almak için
 export const fetchTicketById = async (ticketId) => {
-  return {
-    id: ticketId,
-    owner: { firstName: "Emre", lastName: "Uslu" },
-    options: ["Blue", "YODA"],
-  };
+  try {
+    const response = await axios.get(`${API_BASE_URL}/getTicketById/${ticketId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching ticket:", error);
+    throw error;
+  }
 };
 
+// Bileti güncellemek için
 export const submitTicket = async (ticketId) => {
-  return {
-    id: ticketId,
-    stamped: false,
-  };
+  try {
+    const response = await axios.put(`${API_BASE_URL}/submitTicket/${ticketId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error submitting ticket:", error);
+    throw error;
+  }
 };
