@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 
 const TicketEditor = ({ color, character, owner, onImageReady, imgRef }) => {
   const canvasRef = useRef(null);
-  const imagePath = require(`../Tickets/${color}/${character}.png`);
+  const imagePath = require(`../Tickets/${color}/${color}_${character}.png`);
 
   useEffect(() => {
     const loadFontAndRender = async () => {
