@@ -50,20 +50,22 @@ html,
 
 .stamp-background {
   position: absolute;
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   pointer-events: none;
   opacity: 0;
-  transform: scale(0.5); /* Küçük başlayıp büyümesi için başlangıç ölçeği */
+  transform: scale(0.5);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .stamp img {
   width: 150px;
   height: 150px;
+
 }
 
 /* Animasyon için yeni sınıf */
@@ -109,8 +111,8 @@ html,
 }
 
 .stamp {
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
   pointer-events: none;
 }
 

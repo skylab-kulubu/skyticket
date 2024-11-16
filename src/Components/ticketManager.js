@@ -135,7 +135,7 @@ const TicketManager = () => {
     return { character, color };
   };
 
-  if (!ticketData) return <p>Loading ticket...</p>;
+  if (!ticketData) return <p>BİLET YÜKLENİYOR...</p>;
 
   const { owner, options, used, event } = ticketData;
   const { character, color } = getCharacterAndColor(options);
@@ -149,7 +149,7 @@ const TicketManager = () => {
       {popupVisible && (
         <div className="popup">
           <p>
-            {event.name} etkinliğine hoş geldiniz, {owner.firstName} {owner.lastName}!
+            {event?.name || "Etkinlik"} etkinliğine hoş geldiniz, {owner.firstName} {owner.lastName}!
           </p>
         </div>
       )}
