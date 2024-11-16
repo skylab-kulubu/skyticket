@@ -1,11 +1,13 @@
 /* index.css */
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
 :root {
   --vh: 100vh; /* Varsayılan değer */
 }
 
-body, html, #root {
+body,
+html,
+#root {
   margin: 0;
   padding: 0;
   width: 100vw;
@@ -14,7 +16,6 @@ body, html, #root {
   display: flex;
   justify-content: center;
   align-items: center;
-  
 }
 
 .ticket-container {
@@ -36,12 +37,12 @@ body, html, #root {
 
 .owner-name {
   position: absolute;
-  top: 40%; 
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 2rem;
   font-weight: bold;
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: "Bebas Neue", sans-serif;
   color: white;
   pointer-events: none;
   letter-spacing: 2px;
@@ -60,7 +61,7 @@ body, html, #root {
   transform: scale(0.5); /* Küçük başlayıp büyümesi için başlangıç ölçeği */
 }
 
-.stamp img{
+.stamp img {
   width: 150px;
   height: 150px;
 }
@@ -77,12 +78,13 @@ body, html, #root {
   transform: translateX(-50%);
   background-color: green;
   color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 16px;
+  padding: 15px 25px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
   z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
 
 .download-button {
   margin-top: 20px;
@@ -98,7 +100,6 @@ body, html, #root {
 .download-button:hover {
   background: #0056b3;
 }
-
 
 @keyframes stampAppear {
   to {

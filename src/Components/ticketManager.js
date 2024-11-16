@@ -34,6 +34,9 @@ const TicketManager = () => {
         const response = await fetchTicketById(ticketId);
         if (response.success) {
           setTicketData(response.data); // API'den gelen 'data' nesnesini kullan
+          if (response.data.used) {
+            setPopupVisible(true); // Eğer bilet zaten kullanılmışsa popup hep görünür
+          }
         } else {
           console.error("Failed to fetch ticket:", response.message);
         }
@@ -110,7 +113,6 @@ const TicketManager = () => {
       if (response.success) {
         setTicketData(response.data); // API'den dönen güncellenmiş veriyi state'e aktar
         setPopupVisible(true); // Popup göster
-        setTimeout(() => setPopupVisible(false), 3000); // 3 saniye sonra popup kaybolur
       }
     } catch (error) {
       console.error("Error submitting ticket:", error);
@@ -135,7 +137,7 @@ const TicketManager = () => {
 
   if (!ticketData) return <p>Loading ticket...</p>;
 
-  const { owner, options, used } = ticketData;
+  const { owner, options, used, event } = ticketData;
   const { character, color } = getCharacterAndColor(options);
 
   return (
@@ -146,7 +148,9 @@ const TicketManager = () => {
     >
       {popupVisible && (
         <div className="popup">
-          <p>Yeşil bir etkinliğe hoş geldiniz!</p>
+          <p>
+            {event.name} etkinliğine hoş geldiniz, {owner.firstName} {owner.lastName}!
+          </p>
         </div>
       )}
       {finalImage ? (
