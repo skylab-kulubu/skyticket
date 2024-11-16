@@ -24,6 +24,7 @@ const TicketManager = () => {
   const [finalImage, setFinalImage] = useState(null);
   const [bgColor, setBgColor] = useState("#f0f4f8");
   const [stampPosition, setStampPosition] = useState(null);
+  const [popupVisible, setPopupVisible] = useState(false); // Popup gösterim durumu
   const ticketImageRef = useRef(null);
 
   // Bileti API'den yükle
@@ -66,31 +67,33 @@ const TicketManager = () => {
     }
   }, [ticketData]);
 
+  // Damga ekleme işlemi için klavye dinleyicisi
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.code === "Space" && ticketData && !ticketData.used) {
+        // Boşluk tuşu damga eklemek için kullanılır
+        setStampPosition({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+        const audio = new Audio(stampSoundPath);
+        audio.play();
+        handleStamp();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [ticketData]);
+
   // Damga ekleme işlemi
-  const handleTouchStart = (event) => {
-    if (!ticketData || ticketData.used) return; // Eğer bilet used ise işlem yapma
-
-    if (event.touches.length === 3) {
-      const touch1 = event.touches[0];
-      const touch2 = event.touches[1];
-      const touch3 = event.touches[2];
-
-      const x = (touch1.clientX + touch2.clientX + touch3.clientX) / 3;
-      const y = (touch1.clientY + touch2.clientY + touch3.clientY) / 3;
-
-      setStampPosition({ x, y });
-
-      const audio = new Audio(stampSoundPath);
-      audio.play();
-
-      handleStamp();
-    }
-  };
-
   const handleStamp = async () => {
     try {
-      const updatedData = await submitTicket(ticketId);
-      setTicketData(updatedData); // API'den dönen güncellenmiş veriyi state'e aktar
+      const response = await submitTicket(ticketId);
+      if (response.success) {
+        setTicketData(response.data); // API'den dönen güncellenmiş veriyi state'e aktar
+        setPopupVisible(true); // Popup göster
+        setTimeout(() => setPopupVisible(false), 3000); // 3 saniye sonra popup kaybolur
+      }
     } catch (error) {
       console.error("Error submitting ticket:", error);
     }
@@ -120,9 +123,13 @@ const TicketManager = () => {
   return (
     <div
       className="ticket-container"
-      onTouchStart={handleTouchStart}
       style={{ backgroundColor: bgColor }}
     >
+      {popupVisible && (
+        <div className="popup">
+          <p>Yeşil bir etkinliğe hoş geldiniz!</p>
+        </div>
+      )}
       {finalImage ? (
         <div>
           <TicketDisplay finalImage={finalImage} />

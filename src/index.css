@@ -75,13 +75,14 @@ body, html, #root {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: #4caf50;
+  background-color: green;
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  font-size: 16px;
   z-index: 1000;
 }
+
 
 .download-button {
   margin-top: 20px;
