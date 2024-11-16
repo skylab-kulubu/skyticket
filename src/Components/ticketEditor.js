@@ -12,17 +12,14 @@ const TicketEditor = ({ color, character, owner, onImageReady, imgRef }) => {
       img.src = imagePath;
 
       try {
-        // Fontun tamamen yüklenmesini bekle
         await document.fonts.load("80px Bebas Neue");
 
         img.onload = () => {
           canvas.width = img.width;
           canvas.height = img.height;
 
-          // Görseli çiz
           ctx.drawImage(img, 0, 0, img.width, img.height);
 
-          // Yazıyı ekle
           ctx.font = "80px Bebas Neue";
           ctx.fillStyle = "white";
           ctx.textAlign = "left";
@@ -32,7 +29,6 @@ const TicketEditor = ({ color, character, owner, onImageReady, imgRef }) => {
             canvas.height * 0.6
           );
 
-          // Canvas'ı görüntüye dönüştür
           const finalImage = canvas.toDataURL("image/png");
           onImageReady(finalImage);
         };

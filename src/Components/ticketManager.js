@@ -11,11 +11,28 @@ import { faDownload } from "@fortawesome/free-solid-svg-icons";
 const stampPath = require(`../Tickets/ticket-stamp2.png`); // Damga görseli
 
 const CHARACTER_ENUMS = new Set([
-  "DEADPOOL", "YODA", "FINN", "JAKE", "SPIDERMAN", "RICK",
-  "HARLEY_QUINN", "SUNGER_BOB", "RIGBY_VE_MORDECAI", "WONDER_WOMAN",
-  "SCOOBY_DOO", "HARRY_POTTER", "BATMAN", "IRON_MAN", "JOKER",
-  "PRENSES_CIKLET", "WOODY", "THANOS", "GWEN_STACY", "SUPERMAN",
-  "WOLVERINE", "HULK"
+  "DEADPOOL",
+  "YODA",
+  "FINN",
+  "JAKE",
+  "SPIDERMAN",
+  "RICK",
+  "HARLEY_QUINN",
+  "SUNGER_BOB",
+  "RIGBY_VE_MORDECAI",
+  "WONDER_WOMAN",
+  "SCOOBY_DOO",
+  "HARRY_POTTER",
+  "BATMAN",
+  "IRON_MAN",
+  "JOKER",
+  "PRENSES_CIKLET",
+  "WOODY",
+  "THANOS",
+  "GWEN_STACY",
+  "SUPERMAN",
+  "WOLVERINE",
+  "HULK",
 ]);
 
 const COLOR_ENUMS = new Set(["YESIL", "MAVI", "KIRMIZI", "MOR"]);
@@ -77,7 +94,9 @@ const TicketManager = () => {
 
     const { name: eventName } = ticketData.event;
     const { firstName, lastName } = ticketData.owner;
-    return `${eventName || "Etkinlik"} etkinliğine hoş geldiniz, ${firstName} ${lastName}!`;
+    return `${
+      eventName || "Etkinlik"
+    } etkinliğine hoş geldiniz, ${firstName} ${lastName}!`;
   };
 
   const renderPopup = () => {
@@ -88,7 +107,7 @@ const TicketManager = () => {
       </div>
     );
   };
-  
+
   const handleStamp = async () => {
     try {
       const response = await submitTicket(ticketId);
@@ -102,33 +121,25 @@ const TicketManager = () => {
     } catch (error) {
       console.error("Error submitting ticket:", error);
     }
-  };  
+  };
 
-  // Damga ekleme işlemi
-const handleTouchStart = (event) => {
-  if (!ticketData || ticketData.used) return; // Eğer bilet zaten kullanılmışsa işlem yapma
+  const handleTouchStart = (event) => {
+    if (!ticketData || ticketData.used) return;
 
-  // Sadece 3 parmakla dokunma işlemini tetikle
-  if (event.touches.length === 3) {
-    // Tüm dokunma noktalarını al
-    const [touch1, touch2, touch3] = event.touches;
+    if (event.touches.length === 3) {
+      const [touch1, touch2, touch3] = event.touches;
 
-    // Ortalamayı hesapla
-    const x = (touch1.clientX + touch2.clientX + touch3.clientX) / 3;
-    const y = (touch1.clientY + touch2.clientY + touch3.clientY) / 3;
+      const x = (touch1.clientX + touch2.clientX + touch3.clientX) / 3;
+      const y = (touch1.clientY + touch2.clientY + touch3.clientY) / 3;
 
-    // Damga pozisyonunu ayarla
-    setStampPosition({ x, y });
+      setStampPosition({ x, y });
 
-    // Ses çal
-    const audio = new Audio(stampSoundPath);
-    audio.play();
+      const audio = new Audio(stampSoundPath);
+      audio.play();
 
-    // Damga işlemini tetikle
-    handleStamp();
-  }
-};
-
+      handleStamp();
+    }
+  };
 
   const handleKeyPress = (event) => {
     if (event.key === " ") {

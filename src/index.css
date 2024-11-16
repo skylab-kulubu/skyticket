@@ -1,8 +1,7 @@
-/* index.css */
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
 :root {
-  --vh: 100vh; /* Varsayılan değer */
+  --vh: 100vh;
 }
 
 body,
@@ -11,7 +10,7 @@ html,
   margin: 0;
   padding: 0;
   width: 100vw;
-  height: calc(var(--vh, 1vh) * 100); /* Dinamik yüksekliği kullan */
+  height: calc(var(--vh, 1vh) * 100);
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -65,10 +64,8 @@ html,
 .stamp img {
   width: 150px;
   height: 150px;
-
 }
 
-/* Animasyon için yeni sınıf */
 .animate-stamp {
   animation: stampAppear 0.3s ease forwards;
 }
@@ -112,7 +109,7 @@ html,
 @keyframes stampAppear {
   to {
     opacity: 1;
-    transform: scale(1); /* Yavaşça büyüme efekti */
+    transform: scale(1);
   }
 }
 
@@ -122,7 +119,6 @@ html,
   pointer-events: none;
 }
 
-/* Mobil cihazlarda yatay moda çevir */
 @media (max-width: 768px) {
   .ticket-image {
     width: 90vh;
