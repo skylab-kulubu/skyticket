@@ -85,17 +85,14 @@ const TicketManager = () => {
     };
   }, [ticketData]);
 
-  // Damga ekleme işlemi
+  // Dokunma ve damga ekleme işlemi
   const handleTouchStart = (event) => {
     if (!ticketData || ticketData.used) return; // Eğer bilet used ise işlem yapma
 
-    if (event.touches.length === 3) {
-      const touch1 = event.touches[0];
-      const touch2 = event.touches[1];
-      const touch3 = event.touches[2];
-
-      const x = (touch1.clientX + touch2.clientX + touch3.clientX) / 3;
-      const y = (touch1.clientY + touch2.clientY + touch3.clientY) / 3;
+    if (event.touches.length >= 1) {
+      const touch = event.touches[0];
+      const x = touch.clientX;
+      const y = touch.clientY;
 
       setStampPosition({ x, y });
 
@@ -105,7 +102,7 @@ const TicketManager = () => {
       handleStamp();
     }
   };
-  
+
   // Damga ekleme işlemi
   const handleStamp = async () => {
     try {
@@ -144,6 +141,7 @@ const TicketManager = () => {
   return (
     <div
       className="ticket-container"
+      onTouchStart={handleTouchStart} // Dokunma olayını tetikleyen işlem
       style={{ backgroundColor: bgColor }}
     >
       {popupVisible && (
