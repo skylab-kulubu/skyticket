@@ -26,11 +26,9 @@ const TicketManager = () => {
   const [finalImage, setFinalImage] = useState(null);
   const [bgColor, setBgColor] = useState("#f0f4f8");
   const [stampPosition, setStampPosition] = useState(null);
-  const [popupMessage, setPopupMessage] = useState(""); // Popup mesajı
-  const [showPopup, setShowPopup] = useState(false); // Popup görünürlüğü
+  const [popupVisible, setPopupVisible] = useState(false);
   const ticketImageRef = useRef(null);
 
-  // Bileti API'den yükle
   useEffect(() => {
     const loadTicket = async () => {
       try {
@@ -38,11 +36,7 @@ const TicketManager = () => {
         if (response.success) {
           setTicketData(response.data);
           if (response.data.used) {
-            setPopupMessage(
-              `Sayın ${response.data.owner.firstName} ${response.data.owner.lastName}, zaten ${response.data.event.name} etkinliğindesiniz!`
-            );
-            setShowPopup(true);
-            setTimeout(() => setShowPopup(false), 3000);
+            //setPopupVisible(true);
           }
         } else {
           console.error("Failed to fetch ticket:", response.message);
@@ -55,7 +49,6 @@ const TicketManager = () => {
     loadTicket();
   }, [ticketId]);
 
-  // Ticket görseline göre arkaplan rengini ayarla
   useEffect(() => {
     if (ticketImageRef.current) {
       const img = ticketImageRef.current;
@@ -77,39 +70,39 @@ const TicketManager = () => {
     }
   }, [ticketData]);
 
-  // İndirilebilir bilet oluşturma
-  const downloadTicket = () => {
-    if (!finalImage) return;
-    const link = document.createElement("a");
-    link.href = finalImage;
-    link.download = "ticket.png";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const getPopupMessage = () => {
+    if (!ticketData || !ticketData.event || !ticketData.owner) {
+      return "Bilgiler yükleniyor...";
+    }
+
+    const { name: eventName } = ticketData.event;
+    const { firstName, lastName } = ticketData.owner;
+    return `${eventName || "Etkinlik"} etkinliğine hoş geldiniz, ${firstName} ${lastName}!`;
   };
 
-  // Damga ekleme işlemi
+  const renderPopup = () => {
+    if (!popupVisible) return null;
+    return (
+      <div className="popup">
+        <p>{getPopupMessage()}</p>
+      </div>
+    );
+  };
+  
   const handleStamp = async () => {
     try {
       const response = await submitTicket(ticketId);
       if (response.success) {
-        if (ticketData?.used) {
-          setPopupMessage(
-            `Sayın ${ticketData.owner.firstName} ${ticketData.owner.lastName}, zaten ${ticketData.event.name} etkinliğindesiniz!`
-          );
-        } else {
-          setPopupMessage(
-            `${response.data.event.name} etkinliğine hoş geldiniz, ${response.data.owner.firstName} ${response.data.owner.lastName}!`
-          );
-        }
-        setShowPopup(true);
-        setTimeout(() => setShowPopup(false), 3000);
         setTicketData(response.data);
+        setPopupVisible(true);
+        setTimeout(() => {
+          setPopupVisible(false);
+        }, 2000);
       }
     } catch (error) {
       console.error("Error submitting ticket:", error);
     }
-  };
+  };  
 
   const handleTouchStart = (event) => {
     if (!ticketData || ticketData.used) return;
@@ -128,6 +121,19 @@ const TicketManager = () => {
     }
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === " ") {
+      handleStamp();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keypress", handleKeyPress);
+    return () => {
+      window.removeEventListener("keypress", handleKeyPress);
+    };
+  }, [ticketData]);
+
   const getCharacterAndColor = (options) => {
     let character = null;
     let color = null;
@@ -143,9 +149,18 @@ const TicketManager = () => {
     return { character, color };
   };
 
+  const downloadTicket = () => {
+    if (finalImage) {
+      const link = document.createElement("a");
+      link.href = finalImage;
+      link.download = "ticket.png";
+      link.click();
+    }
+  };
+
   if (!ticketData) return <p>BİLET YÜKLENİYOR...</p>;
 
-  const { owner, options, event } = ticketData;
+  const { owner, options, used } = ticketData;
   const { character, color } = getCharacterAndColor(options);
 
   return (
@@ -154,23 +169,25 @@ const TicketManager = () => {
       onTouchStart={handleTouchStart}
       style={{ backgroundColor: bgColor }}
     >
-      {showPopup && (
-        <div className="popup">
-          <p>{popupMessage}</p>
-        </div>
-      )}
-      {finalImage && (
-        <button
-          onClick={downloadTicket}
-          className="download-button"
-          title="Bileti indir"
-        >
-          <FontAwesomeIcon icon={faDownload} />
-        </button>
-      )}
+      {renderPopup()}
       {finalImage ? (
         <div>
           <TicketDisplay finalImage={finalImage} />
+          <button className="download-button" onClick={downloadTicket}>
+            <FontAwesomeIcon icon={faDownload} />
+          </button>
+          {(used || stampPosition) && (
+            <div
+              className="stamp-background animate-stamp"
+              style={{
+                top: stampPosition ? `${stampPosition.y - 50}px` : "50%",
+                left: stampPosition ? `${stampPosition.x - 50}px` : "50%",
+                transform: stampPosition ? "none" : "translate(-50%, -50%)",
+              }}
+            >
+              <img src={stampPath} alt="Stamp" className="stamp" />
+            </div>
+          )}
         </div>
       ) : (
         <TicketEditor
