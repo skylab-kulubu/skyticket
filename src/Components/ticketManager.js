@@ -104,22 +104,31 @@ const TicketManager = () => {
     }
   };  
 
-  const handleTouchStart = (event) => {
-    if (!ticketData || ticketData.used) return;
+  // Damga ekleme işlemi
+const handleTouchStart = (event) => {
+  if (!ticketData || ticketData.used) return; // Eğer bilet zaten kullanılmışsa işlem yapma
 
-    if (event.touches.length >= 1) {
-      const touch = event.touches[0];
-      const x = touch.clientX;
-      const y = touch.clientY;
+  // Sadece 3 parmakla dokunma işlemini tetikle
+  if (event.touches.length === 3) {
+    // Tüm dokunma noktalarını al
+    const [touch1, touch2, touch3] = event.touches;
 
-      setStampPosition({ x, y });
+    // Ortalamayı hesapla
+    const x = (touch1.clientX + touch2.clientX + touch3.clientX) / 3;
+    const y = (touch1.clientY + touch2.clientY + touch3.clientY) / 3;
 
-      const audio = new Audio(stampSoundPath);
-      audio.play();
+    // Damga pozisyonunu ayarla
+    setStampPosition({ x, y });
 
-      handleStamp();
-    }
-  };
+    // Ses çal
+    const audio = new Audio(stampSoundPath);
+    audio.play();
+
+    // Damga işlemini tetikle
+    handleStamp();
+  }
+};
+
 
   const handleKeyPress = (event) => {
     if (event.key === " ") {
