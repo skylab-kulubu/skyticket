@@ -126,11 +126,11 @@ const TicketManager = () => {
   const handleTouchStart = (event) => {
     if (!ticketData || ticketData.used) return;
 
-    if (event.touches.length === 6) {
-      const [touch1, touch2, touch3, touch4, touch5, touch6] = event.touches;
+    if (event.touches.length === 3) {
+      const [touch1, touch2, touch3] = event.touches;
 
-      const x = (touch1.clientX + touch2.clientX + touch3.clientX + touch4.clientX + touch5.clientX + touch6.clientX) / 6;
-      const y = (touch1.clientY + touch2.clientY + touch3.clientY + touch4.clientY + touch5.clientY + touch6.clientY) / 6;
+      const x = (touch1.clientX + touch2.clientX + touch3.clientX ) / 3;
+      const y = (touch1.clientY + touch2.clientY + touch3.clientY ) / 3;
 
       setStampPosition({ x, y });
 
