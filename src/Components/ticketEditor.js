@@ -1,8 +1,16 @@
+// TicketEditor.js
+
 import React, { useEffect, useRef } from "react";
 
-const TicketEditor = ({ color, character, owner, onImageReady, imgRef }) => {
+const TicketEditor = ({ color, character, special, owner, onImageReady, imgRef }) => {
   const canvasRef = useRef(null);
-  const imagePath = require(`../Tickets/${color}/${color}_${character}.png`);
+  let imagePath;
+
+  if (special === "GECENIN_YILDIZI") {
+    imagePath = require(`../Tickets/special/GECENIN_YILDIZI.png`);
+  } else {
+    imagePath = require(`../Tickets/${color}/${color}_${character}.png`);
+  }
 
   useEffect(() => {
     const loadFontAndRender = async () => {
@@ -12,7 +20,7 @@ const TicketEditor = ({ color, character, owner, onImageReady, imgRef }) => {
       img.src = imagePath;
 
       try {
-        await document.fonts.load("80px Bebas Neue");
+        await document.fonts.load("80px 'Bebas Neue'");
 
         img.onload = () => {
           canvas.width = img.width;
@@ -20,13 +28,30 @@ const TicketEditor = ({ color, character, owner, onImageReady, imgRef }) => {
 
           ctx.drawImage(img, 0, 0, img.width, img.height);
 
-          ctx.font = "80px Bebas Neue";
-          ctx.fillStyle = "white";
-          ctx.textAlign = "left";
+          // Varsayılan isim pozisyonu ve rengi
+          let textX = canvas.width * 0.13;
+          let textY = canvas.height * 0.6;
+          let textColor = "white";
+          let fontSize = "80px";
+
+          // Eğer özel bilet türü ise, isim konumunu ve rengini değiştir
+          if (special === "GECENIN_YILDIZI") {
+            textX = canvas.width * 0.865; // Sağ üst köşe için x pozisyonu
+            textY = canvas.height * 0.52; // Üst kısmı için y pozisyonu
+            textColor = "darkgreen"; // Koyu yeşil renk
+            fontSize = "200px"; // Büyük font boyutu
+          }
+
+          ctx.font = `${fontSize} 'Bebas Neue'`;
+          ctx.fillStyle = textColor;
+
+          // Normal biletler için sola hizalama, özel biletler için sağa hizalama
+          ctx.textAlign = special === "GECENIN_YILDIZI" ? "right" : "left";
+
           ctx.fillText(
             `${owner.firstName} ${owner.lastName}`,
-            canvas.width * 0.13,
-            canvas.height * 0.6
+            textX,
+            textY
           );
 
           const finalImage = canvas.toDataURL("image/png");
@@ -38,7 +63,7 @@ const TicketEditor = ({ color, character, owner, onImageReady, imgRef }) => {
     };
 
     loadFontAndRender();
-  }, [imagePath, owner, onImageReady]);
+  }, [imagePath, owner, onImageReady, special]);
 
   return (
     <div className="ticket-container">

@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://backend.skyticket.yildizskylab.com/api/tickets";
+//const API_BASE_URL = "https://backend.skyticket.yildizskylab.com/api/tickets";
+const API_BASE_URL = "http://localhost:9001/api/tickets";
 
 export const fetchTicketById = async (ticketId) => {
   try {

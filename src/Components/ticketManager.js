@@ -1,3 +1,5 @@
+// TicketManager.js
+
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import TicketEditor from "./ticketEditor";
@@ -36,6 +38,8 @@ const CHARACTER_ENUMS = new Set([
 ]);
 
 const COLOR_ENUMS = new Set(["YESIL", "MAVI", "KIRMIZI", "MOR"]);
+
+const SPECIAL_ENUMS = new Set(["GECENIN_YILDIZI"]);
 
 const TicketManager = () => {
   const { ticketId } = useParams();
@@ -129,8 +133,8 @@ const TicketManager = () => {
     if (event.touches.length === 3) {
       const [touch1, touch2, touch3] = event.touches;
 
-      const x = (touch1.clientX + touch2.clientX + touch3.clientX ) / 3;
-      const y = (touch1.clientY + touch2.clientY + touch3.clientY ) / 3;
+      const x = (touch1.clientX + touch2.clientX + touch3.clientX) / 3;
+      const y = (touch1.clientY + touch2.clientY + touch3.clientY) / 3;
 
       setStampPosition({ x, y });
 
@@ -154,20 +158,32 @@ const TicketManager = () => {
     };
   }, [ticketData]);
 
-  const getCharacterAndColor = (options) => {
+  const getTicketType = (options) => {
     let character = null;
     let color = null;
+    let special = null;
 
     options.forEach((option) => {
       if (CHARACTER_ENUMS.has(option)) {
         character = option;
       } else if (COLOR_ENUMS.has(option)) {
         color = option;
+      } else if (SPECIAL_ENUMS.has(option)) {
+        special = option;
       }
     });
 
-    return { character, color };
+    return { character, color, special };
   };
+
+  const getTicketTypeResult = () => {
+    if (!ticketData || !ticketData.options) {
+      return { character: null, color: null, special: null };
+    }
+    return getTicketType(ticketData.options);
+  };
+
+  const { character, color, special } = getTicketTypeResult();
 
   const downloadTicket = () => {
     if (finalImage) {
@@ -180,8 +196,38 @@ const TicketManager = () => {
 
   if (!ticketData) return <p>BİLET YÜKLENİYOR...</p>;
 
-  const { owner, options, used } = ticketData;
-  const { character, color } = getCharacterAndColor(options);
+  const { owner, used } = ticketData;
+
+  const renderStamp = () => {
+    if (!used && !stampPosition) return null;
+  
+    let topPos = "50%";
+    let leftPos = "50%";
+    let transform = "translate(-50%, -50%)";
+  
+    if (special === "GECENIN_YILDIZI") {
+      topPos = "50%"; // Dikey olarak ortala
+      leftPos = "30%"; // Soldan konumlandırma
+      transform = "translate(-30%, -50%)"; // Orta nokta ayarlaması
+    } else if (stampPosition) {
+      topPos = `${stampPosition.y - 50}px`;
+      leftPos = `${stampPosition.x - 50}px`;
+      transform = "none";
+    }
+  
+    return (
+      <div
+        className="stamp-background animate-stamp"
+        style={{
+          top: topPos,
+          left: leftPos,
+          transform: transform,
+        }}
+      >
+        <img src={stampPath} alt="Stamp" className="stamp" />
+      </div>
+    );
+  };
 
   return (
     <div
@@ -196,24 +242,14 @@ const TicketManager = () => {
           <button className="download-button" onClick={downloadTicket}>
             <FontAwesomeIcon icon={faDownload} />
           </button>
-          {(used || stampPosition) && (
-            <div
-              className="stamp-background animate-stamp"
-              style={{
-                top: stampPosition ? `${stampPosition.y - 50}px` : "50%",
-                left: stampPosition ? `${stampPosition.x - 50}px` : "50%",
-                transform: stampPosition ? "none" : "translate(-50%, -50%)",
-              }}
-            >
-              <img src={stampPath} alt="Stamp" className="stamp" />
-            </div>
-          )}
+          {renderStamp()}
         </div>
       ) : (
         <TicketEditor
           owner={owner}
           color={color}
           character={character}
+          special={special}
           onImageReady={setFinalImage}
           imgRef={ticketImageRef}
         />
