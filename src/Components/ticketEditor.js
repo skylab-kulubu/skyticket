@@ -8,6 +8,8 @@ const TicketEditor = ({ color, character, special, owner, onImageReady, imgRef }
 
   if (special === "GECENIN_YILDIZI") {
     imagePath = require(`../Tickets/special/GECENIN_YILDIZI.png`);
+  } else if (special === "SKYDAYS"){
+    imagePath = require(`../Tickets/SKYDAYS/SKYDAYS.png`);
   } else {
     imagePath = require(`../Tickets/${color}/${color}_${character}.png`);
   }
@@ -40,6 +42,13 @@ const TicketEditor = ({ color, character, special, owner, onImageReady, imgRef }
             textY = canvas.height * 0.52; // Üst kısmı için y pozisyonu
             textColor = "darkgreen"; // Koyu yeşil renk
             fontSize = "200px"; // Büyük font boyutu
+          }
+
+          if (special === "SKYDAYS") {
+            textX = canvas.width * 0.38; // Sağ üst köşe için x pozisyonu
+            textY = canvas.height * 0.94; // Üst kısmı için y pozisyonu
+            textColor = "white"; // Koyu yeşil renk
+            fontSize = "90px"; // Büyük font boyutu
           }
 
           ctx.font = `${fontSize} 'Bebas Neue'`;
