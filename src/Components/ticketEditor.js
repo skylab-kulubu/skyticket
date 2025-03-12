@@ -22,7 +22,10 @@ const TicketEditor = ({ color, character, special, owner, onImageReady, imgRef }
       img.src = imagePath;
 
       try {
-        await document.fonts.load("80px 'Bebas Neue'");
+        await Promise.all([
+          document.fonts.load("80px 'Bebas Neue'"),
+          document.fonts.load("90px 'Antonio'"),
+        ]);
 
         img.onload = () => {
           canvas.width = img.width;
@@ -35,6 +38,7 @@ const TicketEditor = ({ color, character, special, owner, onImageReady, imgRef }
           let textY = canvas.height * 0.6;
           let textColor = "white";
           let fontSize = "80px";
+          ctx.font = `${fontSize} 'Bebas Neue'`;
 
           // Eğer özel bilet türü ise, isim konumunu ve rengini değiştir
           if (special === "GECENIN_YILDIZI") {
@@ -42,23 +46,25 @@ const TicketEditor = ({ color, character, special, owner, onImageReady, imgRef }
             textY = canvas.height * 0.52; // Üst kısmı için y pozisyonu
             textColor = "darkgreen"; // Koyu yeşil renk
             fontSize = "200px"; // Büyük font boyutu
+            ctx.font = `${fontSize} 'Bebas Neue'`;
           }
 
           if (special === "SKYDAYS") {
-            textX = canvas.width * 0.38; // Sağ üst köşe için x pozisyonu
-            textY = canvas.height * 0.94; // Üst kısmı için y pozisyonu
+            textX = canvas.width * 0.425; // Sağ üst köşe için x pozisyonu
+            textY = canvas.height * 0.88; // Üst kısmı için y pozisyonu
             textColor = "white"; // Koyu yeşil renk
-            fontSize = "90px"; // Büyük font boyutu
+            fontSize = "80px"; // Büyük font boyutu
+            ctx.font = `${fontSize} 'Antonio'`;
           }
 
-          ctx.font = `${fontSize} 'Bebas Neue'`;
+          
           ctx.fillStyle = textColor;
 
           // Normal biletler için sola hizalama, özel biletler için sağa hizalama
           ctx.textAlign = special === "GECENIN_YILDIZI" ? "right" : "left";
 
           ctx.fillText(
-            `${owner.firstName} ${owner.lastName}`,
+            `${owner.firstName} ${owner.lastName}`.toUpperCase(),
             textX,
             textY
           );
